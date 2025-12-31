@@ -20,7 +20,7 @@ function ProfilePage() {
           </div>
           <div className="info">
             <span>
-              Avatar: <img src="/restaurant.png" alt="" />
+              Avatar: <img src={currentUser.avatar} alt="" />
             </span>
             <span>
               Name: <b>{currentUser.username}</b>
