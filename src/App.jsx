@@ -1,15 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {Layout, RequireAuth} from "./pages/layout/Layout.jsx";
-import ProfilePage from "./pages/profile-page/ProfilePage.jsx";
+import { ListPageLoader, SinglePageLoader } from "./lib/loaders.js";
+
 import ProfileUpdatePage from "./pages/profile-update-page/ProfileUpdatePage.jsx";
+import NewPostPage from "./pages/new-post-page/NewPostPage.jsx";
+import ProfilePage from "./pages/profile-page/ProfilePage.jsx";
+import {Layout, RequireAuth} from "./pages/layout/Layout.jsx";
 import SinglePage from "./pages/single-page/SinglePage.jsx";
 import HomePage from "./pages/home-page/HomePage.jsx";
 import ListPage from "./pages/list-page/ListPage.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
-import NewPostPage from "./pages/new-post-page/NewPostPage.jsx";
-import { SinglePageLoader } from "./lib/loaders.js";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,7 @@ function App() {
         {
           path: "/list",
           element: <ListPage />,
+          loader: ListPageLoader
         },
         {
           path: "/:id",

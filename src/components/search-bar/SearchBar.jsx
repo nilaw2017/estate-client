@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SearchBar.scss";
+import { Link } from "react-router-dom";
 const types = ["buy", "rent"];
 function SearchBar() {
   const [query, setQuery] = useState({
@@ -40,9 +41,11 @@ function SearchBar() {
           max={10000000}
           placeholder="Max Price"
         />
+        <Link to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}>
         <button>
           <img src="/search.png" alt="" />
         </button>
+        </Link>
       </form>
     </div>
   );
