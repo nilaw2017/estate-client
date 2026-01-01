@@ -1,7 +1,9 @@
+@import "../../responsive.scss";
+
 .newPostPage {
   height: 100%;
   display: flex;
-  @media (max-width: 992px) {
+  @include md {
     flex-direction: column;
   }
   .formContainer {
@@ -66,13 +68,23 @@
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    justify-content: center;
-
+    justify-content: start;
+    overflow-y: auto;
     img {
       width: 50%;
       height: 180px;
       object-fit: cover;
       border-radius: 5px;
+      @include md {
+        background-color: rgba($color: #000000, $alpha: .2);
+        object-fit: contain;
+        aspect-ratio: 16/9;
+      }
+    }
+    @include md {
+      flex-direction: row;
+      overflow: auto;
+
     }
   }
 }

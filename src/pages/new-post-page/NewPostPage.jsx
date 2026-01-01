@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css"
 import { apiRequest } from "../../lib/apiRequest";
 import UploadWidget from "../../components/upload-widget/UploadWidget"
 
+
 import "./NewPostPage.scss";
 function NewPostPage() {
   const [value, setValue] = useState("")
@@ -30,7 +31,7 @@ function NewPostPage() {
           city: inputs.city,
           bedroom: parseInt(inputs.bedroom),
           bathroom: parseInt(inputs.bathroom),
-          type: inputs.property,
+          type: inputs.type,
           property: inputs.property,
           latitude: inputs.latitude,
           longitude: inputs.longitude,
@@ -50,7 +51,7 @@ function NewPostPage() {
       navigate("/"+res.data.id)
     }catch(error){
       console.log(error);
-      
+      setError(error.response.data.message)
     }
     
   }
@@ -157,6 +158,7 @@ function NewPostPage() {
               <label htmlFor="restaurant">Restaurant</label>
               <input min={0} id="restaurant" name="restaurant" type="number" />
             </div>
+            {error && <span>ERROR</span>}
             <button className="sendButton" type="submit">Add</button>
           </form>
         </div>
