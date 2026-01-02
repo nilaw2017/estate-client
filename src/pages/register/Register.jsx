@@ -24,7 +24,7 @@ function Register() {
       });
       if (res.status === 201) {
         setError(null);
-        console.log(res.data);
+        // console.log(res.data);
         navigate("/login");
       }
     } catch (error) {
