@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import Pin from "../pin/Pin";
 
 function Map({ items }) {
-  // console.log("MAP ITEMS", items);
+  console.log("MAP ITEMS", items);
   
   return (
     <MapContainer

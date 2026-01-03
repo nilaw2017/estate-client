@@ -12,6 +12,9 @@ function SearchBar() {
   const switchType = (value) => {
     setQuery((prev) => ({ ...prev, type: value }));
   };
+  const handleChange = (event) => {
+    setQuery((prev) => ({ ...prev, [event.target.name]:  [event.target.value]}));
+  };
   return (
     <div className="searchBar">
       <div className="type">
@@ -26,13 +29,19 @@ function SearchBar() {
         ))}
       </div>
       <form>
-        <input type="text" name="city" placeholder="City" />
+        <input 
+          type="text" 
+          name="city" 
+          placeholder="City" 
+          onChange={handleChange}
+          />
         <input
           type="number"
           name="minPrice"
           min={0}
           max={10000000}
           placeholder="Min Price"
+          onChange={handleChange}
         />
         <input
           type="number"
@@ -40,6 +49,7 @@ function SearchBar() {
           min={0}
           max={10000000}
           placeholder="Max Price"
+          onChange={handleChange}
         />
         <Link to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}>
         <button>

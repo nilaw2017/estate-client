@@ -12,6 +12,8 @@ import "./ListPage.scss";
 export default function listPage() {
   // const data = listData;
   const posts = useLoaderData()
+  console.log(posts);
+  
   return (
     <div className="listPage">
       <div className="listContainer">
@@ -23,7 +25,7 @@ export default function listPage() {
         </div>
       </div>
       <div className="mapContainer">
-        <Map items={[posts]} />
+        <Map items={posts} />
       </div>
     </div>
   );
