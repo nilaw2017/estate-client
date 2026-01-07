@@ -2,9 +2,11 @@ import React from "react";
 import "./Card.scss";
 import { Link } from "react-router-dom";
 function Card({ item }) {
+  console.log("ITEM >>>>>>>>>", item);
+  
   return (
     <div className="card">
-      <Link to={`/${ClipboardItem.id}`} className="imageContainer">
+      <Link to={`/${item.id}`} className="imageContainer">
         <img src={item.images[0]} alt="" />
       </Link>
 

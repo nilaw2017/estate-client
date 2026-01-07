@@ -1,15 +1,35 @@
-import { useLoaderData } from "react-router-dom";
+import { useContext, useState } from "react";
+import {AuthContext} from "../../context/AuthContext"
+import { useLoaderData, useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import Map from "../../components/map/Map";
 import Slider from "../../components/slider/Slider";
-import { singlePostData, userData } from "../../lib/dummydata";
+import {apiRequest} from "./../../lib/apiRequest"
+// import { singlePostData, userData } from "../../lib/dummydata";
 
 
 import "./SinglePage.scss";
 function SinglePage() {
   const post = useLoaderData()
-  // console.log("POSTTTT", post.user);
-  
+  const [saved, setSaved] = useState(post.isSaved)
+  console.log("POSTTTT", post.postDetail);
+  const {currentUser} = useContext(AuthContext)
+  const navigate = useNavigate();
+  const handleSave = async()=> {
+     if (!currentUser) {
+      navigate("/login");
+    }
+    setSaved((prev)=>!prev)
+    if(!currentUser){
+      redirect("/login");
+    }
+    try {
+      await apiRequest.post("/users/save", {postId: post.id})
+    }catch(err){
+      console.log(err);
+      setSaved((prev)=> !prev)
+    }
+  }
   return (
     <div className="singlePage">
       <div className="details">
@@ -32,7 +52,7 @@ function SinglePage() {
               </div>
             </div>
             <div className="bottom" dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(post.postDetail.desc),
+                __html: DOMPurify.sanitize(post.postDetail?.desc),
               }}></div>
           </div>
         </div>
@@ -46,7 +66,7 @@ function SinglePage() {
               <div className="featureText">
                 <span>Utilities</span>
                 {
-                  post.postDetail.utilities === "owner" ? <p>Owner is responsible</p> : <p>The tenant is responsible</p>
+                  post.postDetail?.utilities === "owner" ? <p>Owner is responsible</p> : <p>The tenant is responsible</p>
                 }
               </div>
             </div>
@@ -55,7 +75,7 @@ function SinglePage() {
               <div className="featureText">
                 <span>Pet Policy</span>
                 {
-                  post.postDetail.utilities === "allowed" ? <p>Pets are allowed</p> : <p>Pets are not allowed</p>
+                  post.postDetail?.pet === "allowed" ? <p>Pets are allowed</p> : <p>Pets are not allowed</p>
                 }
               </div>
             </div>
@@ -63,7 +83,7 @@ function SinglePage() {
               <img src="/fee.png" alt="" />
               <div className="featureText">
                 <span>Property Fees</span>
-                <p>{post.postDetail.income}</p>
+                <p>{post.postDetail?.income}</p>
               </div>
             </div>
           </div>
@@ -71,16 +91,16 @@ function SinglePage() {
           <div className="sizes">
             <div className="size">
               <img src="/size.png" alt="" />
-              <p>{post.postDetail.size} sq.ft</p>
+              <p>{post.postDetail?.size} sq.ft</p>
 
             </div>
             <div className="size">
               <img src="/bed.png" alt="" />
-              <p>{post.postDetail.bedroom} bed</p>
+              <p>{post.bedroom} bed</p>
             </div>
             <div className="size">
               <img src="/bath.png" alt="" />
-              <p>{post.postDetail.bathroom} bathroom</p>
+              <p>{post.bathroom} bathroom</p>
             </div>
           </div>
           <p className="title">Nearby Places</p>
@@ -89,7 +109,7 @@ function SinglePage() {
               <img src="/school.png" alt="" />
               <div className="featureText">
                 <span>School</span>
-                <p>{post.postDetail.school}m away</p>
+                <p>{post.postDetail?.school}m away</p>
 
               </div>
             </div>
@@ -97,14 +117,14 @@ function SinglePage() {
               <img src="/pet.png" alt="" />
               <div className="featureText">
                 <span>Bus Stop</span>
-                <p>{post.postDetail.bus}m away</p>
+                <p>{post.postDetail?.bus}m away</p>
               </div>
             </div>
             <div className="feature">
               <img src="/fee.png" alt="" />
               <div className="featureText">
                 <span>Restaurant</span>
-                <p>200m away</p>
+                <p>{post.postDetail?.restaurant}</p>
               </div>
             </div>
           </div>
@@ -117,9 +137,11 @@ function SinglePage() {
               <img src="/chat.png" alt="" />
               Send a Message
             </button>
-            <button>
+            <button onClick={handleSave} style={{
+              backgroundColor: saved ? "#fece51" : "white"
+            }}>
               <img src="/save.png" alt="" />
-              Save the Place
+              {saved ? "Place Saved":"Save the Place"}
             </button>
           </div>
         </div>
