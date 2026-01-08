@@ -8,7 +8,7 @@ import "./ListPage.scss";
 
 
 export default function ListPage() {
-  const { postResponse } = useLoaderData(); // { postResponse: Promise }
+  const { postResponse } = useLoaderData(); 
   console.log("POST RESPONSE>>>>>>>>",postResponse);
   
   return (

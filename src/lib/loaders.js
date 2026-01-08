@@ -20,3 +20,19 @@ export const ListPageLoader = async ({ request }) => {
 
   return { postResponse: delayedPostResponse };
 };
+
+export const ProfilePageLoader = async () => {
+
+  const postResponse = apiRequest.post(`/users/profile-posts`);
+  console.log("LOADER POST RESPONSE>>>>>>", postResponse);
+  
+  const delayedPostResponse = postResponse.then((res) => {
+    console.log("PROFILE PAGE LOADER RES>>>>>>>>>", res);
+    
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(res), 3000);  
+    });
+  });
+
+  return { postResponse: delayedPostResponse };
+};

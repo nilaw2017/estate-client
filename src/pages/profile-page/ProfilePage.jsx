@@ -1,12 +1,16 @@
+import { Suspense, useContext} from "react";
+import { Await, Link, useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+
 import List from "../../components/list/List";
 import Chat from "../../components/chat/Chat";
 
 import "./ProfilePage.scss";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
-function ProfilePage() {
+function ProfilePage() {  
+  const { postResponse } = useLoaderData(); 
   const {currentUser} = useContext(AuthContext);
+
+  
 
   return (
     <div className="profilePage">
@@ -35,11 +39,45 @@ function ProfilePage() {
               <button>Create New Post</button>
             </Link>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading ...</p>}>
+            <Await
+              resolve={postResponse}
+              errorElement={<p>Error loading posts.</p>}
+            >
+              {(response) => {
+                const userCount = response.data.userPosts?.length ?? 0;
+                console.log("RESPONSE >>>>>>", userCount);
+                return (
+                  <>
+                    {
+                      userCount === 0 ?<p>No User Posts Available</p>:<List posts={response.data.userPosts}/>
+                    }
+                  </>
+                )
+              } }
+            </Await>
+          </Suspense>
+          
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <Suspense fallback={<p>Loading ...</p>}>
+            <Await
+              resolve={postResponse}
+              errorElement={<p>Error loading posts.</p>}
+            >
+              {(response) =>{
+                const savedCount = response.data.savedPosts?.length ?? 0;
+                return (
+                  <>
+                    {
+                      savedCount === 0 ?<p>No Saved Posts Available</p>:<List posts={response.data.savedPosts}/>
+                    }
+                  </>
+                )
+              }}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="chatContainer">

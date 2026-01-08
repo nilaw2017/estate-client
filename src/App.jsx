@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { ListPageLoader, SinglePageLoader } from "./lib/loaders.js";
+import { ListPageLoader, ProfilePageLoader, SinglePageLoader } from "./lib/loaders.js";
 
 import ProfileUpdatePage from "./pages/profile-update-page/ProfileUpdatePage.jsx";
 import NewPostPage from "./pages/new-post-page/NewPostPage.jsx";
@@ -50,6 +50,7 @@ function App() {
         {
           path: "/profile",
           element: <ProfilePage />,
+          loader: ProfilePageLoader
         },
         {
           path: "/profile/update",
