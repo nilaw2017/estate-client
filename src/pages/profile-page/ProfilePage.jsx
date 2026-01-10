@@ -7,7 +7,10 @@ import Chat from "../../components/chat/Chat";
 
 import "./ProfilePage.scss";
 function ProfilePage() {  
-  const { postResponse } = useLoaderData(); 
+  const { postResponse, chatResponse } = useLoaderData(); 
+
+  // console.log("CHAT RESPONSE>>>",chatResponse);
+  
   const {currentUser} = useContext(AuthContext);
 
   
@@ -46,7 +49,7 @@ function ProfilePage() {
             >
               {(response) => {
                 const userCount = response.data.userPosts?.length ?? 0;
-                console.log("RESPONSE >>>>>>", userCount);
+                // console.log("RESPONSE >>>>>>", userCount);
                 return (
                   <>
                     {
@@ -82,7 +85,26 @@ function ProfilePage() {
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Chat />
+          <Suspense fallback={<p>Loading ...</p>}>
+            <Await
+              resolve={chatResponse}
+              errorElement={<p>Error loading chats.</p>}
+            >
+              {(response) =>{
+                console.log("RESPONSE",response.data);
+                
+                const numberOfChats = response.data.length ?? 0;
+                return (
+                  <>
+                    {
+                      numberOfChats === 0 ?<p>No Chats Available</p>:<Chat chats={response.data}/>
+                    }
+                  </>
+                )
+              }}
+            </Await>
+          </Suspense>
+          
         </div>
       </div>
     </div>

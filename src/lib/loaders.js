@@ -24,7 +24,9 @@ export const ListPageLoader = async ({ request }) => {
 export const ProfilePageLoader = async () => {
 
   const postResponse = apiRequest.post(`/users/profile-posts`);
+  const chatResponse = apiRequest.get(`/chats`)
   console.log("LOADER POST RESPONSE>>>>>>", postResponse);
+  console.log("LOADER CHAT RESPONSE>>>>>>", chatResponse);
   
   const delayedPostResponse = postResponse.then((res) => {
     console.log("PROFILE PAGE LOADER RES>>>>>>>>>", res);
@@ -34,5 +36,5 @@ export const ProfilePageLoader = async () => {
     });
   });
 
-  return { postResponse: delayedPostResponse };
+  return { postResponse: delayedPostResponse, chatResponse };
 };

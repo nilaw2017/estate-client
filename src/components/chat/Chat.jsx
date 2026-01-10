@@ -1,41 +1,30 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 
 import "./Chat.scss";
-function Chat() {
-  const [chat, setChat] = useState(true);
+import { AuthContext } from "../../context/AuthContext";
+function Chat({chats}) {
+  const [chat, setChat] = useState(false);
+  const {currentUser} = useContext(AuthContext)
+  console.log("CHATS",chats);
+  
   return (
     <div className="chat">
       <div className="messages">
         <h1>Messages</h1>
-        <div className="message">
-          <img src="/pet.png" alt="" />
-          <span>John Doe</span>
-          <p>Lotem ipsum dolor...</p>
-        </div>
+        {
+          chats.map((chat)=> {
+            return (
+              <div className="message" key={chat.id} style={{
+                backgroundColor: chat.seenBy.includes(currentUser.id) ? "white" : "#fecd514e" 
+              }}>
+                <img src={chat.receiver.avatar || "/pet.png"} alt="" />
+                <span>{chat.receiver.username}</span>
+                <p>{chat.lastMessage}</p>
+              </div>
+            )
+          })
+        }
 
-        <div className="message">
-          <img src="/pet.png" alt="" />
-          <span>John Doe</span>
-          <p>Lotem ipsum dolor...</p>
-        </div>
-
-        <div className="message">
-          <img src="/pet.png" alt="" />
-          <span>John Doe</span>
-          <p>Lotem ipsum dolor...</p>
-        </div>
-
-        <div className="message">
-          <img src="/pet.png" alt="" />
-          <span>John Doe</span>
-          <p>Lotem ipsum dolor...</p>
-        </div>
-
-        <div className="message">
-          <img src="/pet.png" alt="" />
-          <span>John Doe</span>
-          <p>Lotem ipsum dolor...</p>
-        </div>
       </div>
       {chat && (
         <div className="chatBox">

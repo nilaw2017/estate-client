@@ -61,7 +61,7 @@ function App() {
           element: <NewPostPage />
         }
       ],
-    }
+    } 
   ]);
   return <RouterProvider router={router} />;
 }
